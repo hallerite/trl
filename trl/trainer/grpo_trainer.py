@@ -315,6 +315,11 @@ class GRPOTrainer(Trainer):
                         device=vllm_device,
                         gpu_memory_utilization=self.args.vllm_gpu_memory_utilization,
                     )
+                    # Check dtype of vLLM model
+                    model_dtype = next(self.llm.llm_engine.model_executor.driver_worker.model_runner.model.parameters()).dtype
+                    print(f"vLLM model dtype: {model_dtype}")
+
+
                 self.sampling_params = SamplingParams(
                     n=self.num_generations,
                     temperature=args.temperature,
